@@ -12,7 +12,7 @@ void* FIFO(void* arg) {
     printf("Incoming\t");
 
     for (int i = 0; i < input->frames; i++) {
-        printf("Frame%d\t", i + 1);
+        printf("Frame %d\t", i + 1);
         frameStates[i] = -1;
     }
     printf("\n");
@@ -36,13 +36,13 @@ void* FIFO(void* arg) {
         }
 
         printf("\n");
-        printf("%d\t\t\t", input->numbers[i]);
+        printf("%d\t\t", input->numbers[i]);
 
         for (int j = 0; j < input->frames; j++) {
             if (frameStates[j] != -1)
-                printf("%d\t\t\t", frameStates[j]);
+                printf("%d\t", frameStates[j]);
             else
-                printf("-\t\t\t");
+                printf("-\t");
         }
     }
 
