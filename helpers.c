@@ -4,6 +4,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <unistd.h>
 
 const int LENGTH = 1000;
 
@@ -18,7 +21,7 @@ int getInputNumbers(int** numbers) {
     input[strcspn(input, "\n")] = '\0';
 
     while (!checkAllNumeric(input)) {
-        printf("%s%s", INPUT_ERROR_MSG, INPUT_MSG);
+        printf("%s%s", INPUT_TYPE_ERROR_MSG, INPUT_MSG);
         fflush(stdin);
         fgets(input, LENGTH, stdin);
         input[strcspn(input, "\n")] = '\0';
@@ -70,4 +73,48 @@ bool checkAllNumeric(char* input) {
     }
 
     return true;
+}
+
+void getChoice(int* choice, int lower, int upper) {
+    while (scanf("%d", choice) != 1 || (*choice < lower || *choice > upper)) {
+        printf("\t\t%s", INPUT_TYPE_ERROR_MSG);
+        printf("\t\tOr enter a number in the range of the menu (%d to %d)\n", lower, upper);
+        printf("\t\t\b\b\b-> ");
+        fflush(stdin);
+    }
+
+    system("clear");    
+}
+
+void displayAlgorithmsName(char* name) {
+    printf("\t\t\b\b\b--- %s ---\n\n", name);
+}
+
+void implementSingleAlgorithm(void* algorithm(void*), Input input) {
+    pthread_t thread;
+
+    if (pthread_create(&thread, NULL, algorithm, (void*)&input) != 0) {
+        fprintf(stderr, "%s", THREAD_CREATION_FAILED);
+        exit(EXIT_FAILURE);
+    }
+
+    if (pthread_join(thread, NULL) != 0) {
+        fprintf(stderr, "%s", THREAD_JOINING_FAILED);
+        exit(EXIT_FAILURE);
+    }
+}
+
+void displayContinueMenu() {
+    printf("\n\n\t\t1. Continue (Head to the menu)\n");
+    printf("\t\t2. Exit\n\n");
+    printf("\t\tEnter the number of the action you want to perform\n");
+    printf("\t\t\b\b\b-> ");
+}
+
+void displayTypingEffect(char* str) {
+    for (int i = 0; i < strlen(str); i++) {
+        printf("%c", str[i]);
+        fflush(stdout);
+        usleep(50000);
+    }
 }
