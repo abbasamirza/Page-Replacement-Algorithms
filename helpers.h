@@ -12,5 +12,10 @@ int getInputNumbers(int**);
 int getFrameSize();
 int convertInputStringToNumbers(int**, char*);
 bool checkAllNumeric(char*);
+void getChoice(int*, int, int);
+void displayAlgorithmsName(char*);
+void implementSingleAlgorithm(void*(void* ), Input);
+void displayContinueMenu();
+void displayTypingEffect(char*);
 
 #endif
