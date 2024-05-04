@@ -5,6 +5,10 @@
     "editor.formatOnSave": true, // optional
     "editor.formatOnSaveMode": "file",
     "files.associations": {
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "stdlib.h": "c",
+        "messages.h": "c",
+        "helpers.h": "c",
+        "algorithms.h": "c"
     }, // required to format on save
 }
