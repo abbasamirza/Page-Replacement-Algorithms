@@ -24,7 +24,8 @@ int getInputNumbers(int** numbers) {
 
     // Prompt user for input until input is not all numeric
     while (!checkAllNumeric(input)) {
-        printf("%s%s", INPUT_TYPE_ERROR_MSG, INPUT_MSG);
+        displayTextInColor(INPUT_TYPE_ERROR_MSG, RED);
+        displayTextInColor(INPUT_MSG, RED);
         fflush(stdin);
         fgets(input, LENGTH, stdin);
         input[strcspn(input, "\n")] = '\0';
@@ -43,7 +44,7 @@ int getFrameSize() {
     
     // Prompt user until he doesn't provide a type 'number' or a number greater than zero
     while (scanf("%d", &frames) != 1 || frames <= 0) {
-        printf("Please enter a positive integer!\n");
+        displayTextInColor("Please enter a positive integer!\n", RED);
         printf("Enter frame size: ");
         fflush(stdin);
     }
@@ -54,9 +55,11 @@ int getFrameSize() {
 void getChoice(int* choice, int lower, int upper) {
     // Check if user has provided input of type 'number' and that input should be in range
     while (scanf("%d", choice) != 1 || (*choice < lower || *choice > upper)) {
-        printf("\t\t%s", INPUT_TYPE_ERROR_MSG);
-        printf("\t\tOr enter a number in the range of the menu (%d to %d)\n", lower, upper);
-        printf("\t\t\b\b\b-> ");
+        printf("\t\t");
+        displayTextInColor(INPUT_TYPE_ERROR_MSG, RED);
+        printf("\t\t%s", RED);
+        printf("Or enter a number in the range of the menu (%d to %d)\n", lower, upper);
+        displayTextInColor("\t\t\b\b\b-> ", BLUE);
         fflush(stdin);
     }
 
@@ -67,27 +70,35 @@ void getChoice(int* choice, int lower, int upper) {
 
 // --- DISPLAY FUNCTIONS ---
 void displayAlgorithmsName(char* name) {
-    printf("\t----------------------------------------\n");
-    printf("\t\t\b\b\b--- %s ---\n", name);
+    displayTextInColor("\t----------------------------------------\n", BLUE);
+    printf("\t\t\b\b\b%s", CYAN);
+    printf("--- %s ---\n", name);
+    printf(DEFAULT);
 }
 
 void displayContinueMenu() {
-    printf("\n\n\t\t1. Continue (Head to the menu)\n");
-    printf("\t\t2. Exit\n\n");
-    printf("\t\tEnter the number of the action you want to perform\n");
-    printf("\t\t\b\b\b-> ");
+    displayTextInColor("\n\n\t----------------------------------------\n", BLUE);
+    printf("\t1. Continue (Head to the menu)\n");
+    printf("\t2. Exit\n\n");
+    printf("\tEnter the number of the action you want to perform\n");
+    displayTextInColor("\t\b\b\b-> ", BLUE);
 }
 
-void displayTypingEffect(char* str) {
+void displayTypingEffect(char* str, char* color) {
+    printf("%s", color);
+
     for (int i = 0; i < strlen(str); i++) {
         printf("%c", str[i]);
         fflush(stdout);
         usleep(50000);
     }
+
+    printf(DEFAULT);
 }
 
-void displayFrameState(int numbers[], int frame[], int length, int index) {
+void displayFrameState(int numbers[], int frame[], int length, int index, char* color) {
     printf("\n");
+    printf("%s", color);
     printf("\t%d\t\t", numbers[index]);
 
     for (int j = 0; j < length; j++) {
@@ -97,12 +108,24 @@ void displayFrameState(int numbers[], int frame[], int length, int index) {
             printf("-\t");
         }
     }
+
+    printf(DEFAULT);
 }
 
 void displayOutputResults(int pageHits, int pageFaults) {
+    printf(GREEN);
     printf("\n\n\tPage Hits: %d\n", pageHits);
+    printf(RED);
     printf("\tPage Faults: %d\n", pageFaults);
+    printf(BLUE);
     printf("\t----------------------------------------\n");
+    printf(DEFAULT);
+}
+
+void displayTextInColor(char* text, char* color) {
+    printf("%s", color);
+    printf("%s", text);
+    printf("%s", DEFAULT);
 }
 // --- DISPLAY FUNCTIONS ---
 
@@ -115,7 +138,7 @@ int convertInputStringToNumbers(int** numbers, char* inputSplitted) {
         *numbers = realloc(*numbers, (index + 1) * sizeof(int));
 
         if (!*numbers) {
-            fprintf(stderr, "%s", MEMORY_ALLOCATION_FAILED);
+            displayTextInColor(MEMORY_ALLOCATION_FAILED, RED);
             exit(EXIT_FAILURE);
         }
 
@@ -156,10 +179,12 @@ void implementSingleAlgorithm(void* algorithm(void*), Input input) {
 }
 
 void assignDefaultFrameValues(int* frame, int length) {
-    printf("\tIncoming\t");
+    displayTextInColor("\tIncoming\t", CYAN);
 
     for (int i = 0; i < length; i++) {
+        printf(CYAN);
         printf("Frame %d\t", i + 1);
+        printf(DEFAULT);
         frame[i] = -1;
     }
 

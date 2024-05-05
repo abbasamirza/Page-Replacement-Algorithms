@@ -16,6 +16,7 @@ void* FIFO(void* arg) {
     for (int i = 0; i < input->count; i++) {
         // To check if page is present already or not
         bool pageInFrame = false;
+        char* color = GREEN;
 
         if (checkPageHit(input->numbers, frame, input->frames, i)) {
             pageInFrame = true;
@@ -27,14 +28,17 @@ void* FIFO(void* arg) {
         // Check if there is empty space in frame and page is not in frame (page fault/miss)
         if ((pageFaults <= input->frames) && (!pageInFrame)) {
             frame[i] = input->numbers[i];
+            color = BLUE;
         } else if (!pageInFrame) { // Check if page is not frame but there is no empty space
             frame[(pageFaults - 1) % input->frames] = input->numbers[i];
+            color = RED;
         }
 
-        displayFrameState(input->numbers, frame, input->frames, i);
+        displayFrameState(input->numbers, frame, input->frames, i, color);
     }
 
     displayOutputResults(input->count - pageFaults, pageFaults);
+    free(frame);
 
     pthread_exit(0);
 }
@@ -48,6 +52,7 @@ void* OPR(void* arg) {
     assignDefaultFrameValues(frame, input->frames);
 
     for (int i = 0; i < input->count; i++) {
+        char* color = GREEN;
         // Check if page is already present in frame or not
         if (!checkPageHit(input->numbers, frame, input->frames, i)) {
             if (!full) {
@@ -55,6 +60,7 @@ void* OPR(void* arg) {
                 index = (index + 1) % input->frames;
                 frame[index] = input->numbers[i];
                 pageFaults++;
+                color = BLUE;
 
                 // Check whether frame is full
                 if (i == input->frames - 1) {
@@ -69,13 +75,15 @@ void* OPR(void* arg) {
 
                 pageFaults++;
                 frame[index] = input->numbers[i];
+                color = RED;
             }
         }
 
-        displayFrameState(input->numbers, frame, input->frames, i);
+        displayFrameState(input->numbers, frame, input->frames, i, color);
     }
 
     displayOutputResults(input->count - pageFaults, pageFaults);
+    free(frame);
 
     pthread_exit(0);
 }
@@ -89,11 +97,14 @@ void* LRU(void* arg) {
     assignDefaultFrameValues(frame, input->frames);
 
     for (int i = 0; i < input->count; i++) {
+        char* color = GREEN;
+
         if (!checkPageHit(input->numbers, frame, input->frames, i)) {
             if (occupied < input->frames) {
                 frame[occupied] = input->numbers[i];
                 pageFaults++;
                 occupied++;
+                color = BLUE;
             } else {
                 int max = INT_MIN, index;
 
@@ -101,13 +112,16 @@ void* LRU(void* arg) {
 
                 frame[index] = input->numbers[i];
                 pageFaults++;
+                color = RED;
             }
         }
 
-        displayFrameState(input->numbers, frame, input->frames, i);
+        displayFrameState(input->numbers, frame, input->frames, i, color);
     }
 
     displayOutputResults(input->count - pageFaults, pageFaults);
+    free(frame);
+    free(distance);
 
     pthread_exit(0);
 }

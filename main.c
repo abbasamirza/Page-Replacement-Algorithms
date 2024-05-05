@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
             input.numbers = (int*)calloc(argc - 1, sizeof(int));
 
             if (!input.numbers) {
-                fprintf(stderr, "%s", MEMORY_ALLOCATION_FAILED);
+                displayTextInColor(MEMORY_ALLOCATION_FAILED, RED);
                 exit(EXIT_FAILURE);
             }
 
@@ -46,11 +46,11 @@ int main(int argc, char* argv[]) {
                 input.numbers[i] = atoi(argv[i + 1]);
             }
         } else {
-            printf("%s", INPUT_TYPE_ERROR_MSG);
+            displayTextInColor(INPUT_TYPE_ERROR_MSG, RED);
             input.count = getInputNumbers(&input.numbers);
         }
     } else {
-        printf("You can also use command-line for giving input!\n");
+        displayTextInColor("You can also use command-line for giving input!\n", CYAN);
         input.count = getInputNumbers(&input.numbers);
     }
 
@@ -58,7 +58,7 @@ int main(int argc, char* argv[]) {
     
     do {
         bool wantsToContinue = false, changesUpdated = false;
-        
+
         displayMenu();
         fflush(stdin);
         getChoice(&choice, 1, 7);
@@ -96,11 +96,12 @@ int main(int argc, char* argv[]) {
         }
 
         if (changesUpdated) {
-            displayTypingEffect("Your changes were successfully saved!");
+            displayTypingEffect("Your changes were successfully saved!", GREEN);
             sleep(1);
         }
     } while (choice != 7);
 
+    // Delete dynamically allocated memory
     free(input.numbers);
 
     return 0;
