@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 
+// Define menu options for better readability
 #define FIFO_ALGORITHM 1
 #define OPTIMAL_PAGE_REPLACEMENT 2
 #define LEAST_RECENTLY_USED 3
@@ -57,6 +58,7 @@ int main(int argc, char* argv[]) {
     
     do {
         bool wantsToContinue = false, changesUpdated = false;
+        
         displayMenu();
         fflush(stdin);
         getChoice(&choice, 1, 7);

@@ -8,14 +8,25 @@ typedef struct {
     int frames, count;
 } Input;
 
+// Get input
 int getInputNumbers(int**);
 int getFrameSize();
-int convertInputStringToNumbers(int**, char*);
-bool checkAllNumeric(char*);
 void getChoice(int*, int, int);
+
+// Display
 void displayAlgorithmsName(char*);
-void implementSingleAlgorithm(void*(void* ), Input);
 void displayContinueMenu();
 void displayTypingEffect(char*);
+void displayFrameState(int*, int*, int, int);
+void displayOutputResults(int, int);
+
+// Helper/Manipulation
+int convertInputStringToNumbers(int**, char*);
+bool checkAllNumeric(char*);
+void implementSingleAlgorithm(void*(void*), Input);
+void assignDefaultFrameValues(int*, int);
+bool checkPageHit(int*, int*, int, int);
+void OPRSearch(int*, int*, int*, int*, int, int, int);
+void LRUSearch(int*, int*, int*, int*, int*, int, int);
 
 #endif
