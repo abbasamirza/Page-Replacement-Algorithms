@@ -11,9 +11,11 @@
 #define FIFO_ALGORITHM 1
 #define OPTIMAL_PAGE_REPLACEMENT 2
 #define LEAST_RECENTLY_USED 3
-#define ALL_ALGORITHMS 4
-#define CHANGE_NUMBERS 5
-#define CHANGE_FRAME_SIZE 6
+#define SECOND_CHANCE_ALGORITHM 4
+#define ALL_ALGORITHMS 5
+#define CHANGE_NUMBERS 6
+#define CHANGE_FRAME_SIZE 7
+#define EXIT 8
 
 void assignDefaultValues(Input*);
 void implementAllAlgorithms(Input);
@@ -61,7 +63,7 @@ int main(int argc, char* argv[]) {
 
         displayMenu();
         fflush(stdin);
-        getChoice(&choice, 1, 7);
+        getChoice(&choice, 1, 8);
 
         if (choice == FIFO_ALGORITHM) {
             displayAlgorithmsName("FIRST IN FIRST OUT (FIFO)");
@@ -74,6 +76,10 @@ int main(int argc, char* argv[]) {
         } else if (choice == LEAST_RECENTLY_USED) {
             displayAlgorithmsName("LEAST RECENTLY USED (LRU)");
             implementSingleAlgorithm(LRU, input);
+            wantsToContinue = true;
+        } else if (choice == SECOND_CHANCE_ALGORITHM) {
+            displayAlgorithmsName("SECOND CHANCE ALGORITHM (SCA)");
+            implementSingleAlgorithm(SCA, input);
             wantsToContinue = true;
         } else if (choice == ALL_ALGORITHMS) {
             implementAllAlgorithms(input);
@@ -99,7 +105,7 @@ int main(int argc, char* argv[]) {
             displayTypingEffect("Your changes were successfully saved!", GREEN);
             sleep(1);
         }
-    } while (choice != 7);
+    } while (choice != EXIT);
 
     // Delete dynamically allocated memory
     free(input.numbers);
@@ -124,5 +130,9 @@ void implementAllAlgorithms(Input input) {
 
     displayAlgorithmsName("LEAST RECENTLY USED (LRU)");
     implementSingleAlgorithm(LRU, input);
+    printf("\n\n");
+
+    displayAlgorithmsName("SECOND CHANCE ALGORITHM (SCA)");
+    implementSingleAlgorithm(SCA, input);
     printf("\n\n");
 }

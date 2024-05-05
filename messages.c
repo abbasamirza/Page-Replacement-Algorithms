@@ -21,12 +21,13 @@ void displayMenu() {
     printf("\t\t1. First in First Out (FIFO)\n");
     printf("\t\t2. Optimal Page Replacement (OPR)\n");
     printf("\t\t3. Least Recently Used (LRU)\n");
-    printf("\t\t4. Implement All 3 Algorithms\n");
+    printf("\t\t4. Second Change Algorithm (SCA)\n");
+    printf("\t\t5. Implement All Algorithms\n");
     displayTextInColor("\t\t-------------------------------------\n", BLUE);
     displayTextInColor("\t\t\t\b\b\b--- WANT TO CHANGE INPUT? ---\n", CYAN);
-    printf("\t\t5. Re Enter Numbers\n");
-    printf("\t\t6. Change Frame Size\n");
-    printf("\t\t7. Exit\n\n");
+    printf("\t\t6. Re Enter Numbers\n");
+    printf("\t\t7. Change Frame Size\n");
+    printf("\t\t8. Exit\n\n");
     printf("\t\tEnter the number of the action you want to perform\n");
     displayTextInColor("\t\t\b\b\b-> ", BLUE);
 }
