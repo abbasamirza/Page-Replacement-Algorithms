@@ -4,5 +4,6 @@
 void* FIFO(void *);
 void* OPR(void *);
 void* LRU(void *);
+void* SCA(void *);
 
 #endif

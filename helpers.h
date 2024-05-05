@@ -25,7 +25,7 @@ void displayAlgorithmsName(char*);
 void displayContinueMenu();
 void displayTypingEffect(char*, char*);
 void displayFrameState(int*, int*, int, int, char*);
-void displayOutputResults(int, int);
+void displayOutputResults(int, int, int);
 void displayTextInColor(char*, char*);
 
 // Helper/Manipulation
@@ -34,6 +34,7 @@ bool checkAllNumeric(char*);
 void implementSingleAlgorithm(void*(void*), Input);
 void assignDefaultFrameValues(int*, int);
 bool checkPageHit(int*, int*, int, int);
+int getHitIndex(int*, int*, int, int);
 void OPRSearch(int*, int*, int*, int*, int, int, int);
 void LRUSearch(int*, int*, int*, int*, int*, int, int);
 

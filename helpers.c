@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <unistd.h>
+#include <math.h>
 
 // Maximum length of input numbers
 const int LENGTH = 1000;
@@ -96,7 +97,7 @@ void displayTypingEffect(char* str, char* color) {
     printf(DEFAULT);
 }
 
-void displayFrameState(int numbers[], int frame[], int length, int index, char* color) {
+void displayFrameState(int* numbers, int* frame, int length, int index, char* color) {
     printf("\n");
     printf("%s", color);
     printf("\t%d\t\t", numbers[index]);
@@ -112,11 +113,14 @@ void displayFrameState(int numbers[], int frame[], int length, int index, char* 
     printf(DEFAULT);
 }
 
-void displayOutputResults(int pageHits, int pageFaults) {
+void displayOutputResults(int pageHits, int pageFaults, int count) {
+    int hitRatio = round((pageHits / (float)count) * 100);
+    int missRatio = round((pageFaults / (float)count) * 100);
+
     printf(GREEN);
-    printf("\n\n\tPage Hits: %d\n", pageHits);
+    printf("\n\n\tPage Hits: %d -> %d%%\n", pageHits, hitRatio);
     printf(RED);
-    printf("\tPage Faults: %d\n", pageFaults);
+    printf("\tPage Faults: %d -> %d%%\n", pageFaults, missRatio);
     printf(BLUE);
     printf("\t----------------------------------------\n");
     printf(DEFAULT);
@@ -200,6 +204,16 @@ bool checkPageHit(int* numbers, int* frame, int length, int i) {
     }
 
     return false;
+}
+
+int getHitIndex(int* numbers, int* frame, int length, int i) {
+    for (int j = 0; j < length; j++) {
+        if (numbers[i] == frame[j]) {
+            return j;
+        }
+    }
+
+    return 0;
 }
 
 void OPRSearch(int* numbers, int* frame, int* pos, int* index, int length, int count, int i) {
