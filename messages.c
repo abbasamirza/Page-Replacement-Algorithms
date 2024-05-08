@@ -6,6 +6,7 @@
 // Input messages
 char* INPUT_MSG = "Enter the reference string/page numbers (numbers should be space separated!): ";
 char* INPUT_TYPE_ERROR_MSG = "Invalid input! Please enter number type only\n";
+char* INPUT_LENGTH_ERROR_MSG = "Please enter atleast one number\n";
 
 // Memory messages
 char* MEMORY_ALLOCATION_FAILED = "Memory allocation failed\n";
