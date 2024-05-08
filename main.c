@@ -19,6 +19,7 @@
 
 void assignDefaultValues(Input*);
 void implementAllAlgorithms(Input);
+void displayReferenceString(Input);
 
 int main(int argc, char* argv[]) {
     Input input;
@@ -85,9 +86,16 @@ int main(int argc, char* argv[]) {
             implementAllAlgorithms(input);
             wantsToContinue = true;
         } else if (choice == CHANGE_NUMBERS) {
+            printf(CYAN);
+            printf("Current Reference String: ");
+            displayReferenceString(input);
+            printf(DEFAULT);
             input.count = getInputNumbers(&input.numbers);
             changesUpdated = true;
         } else if (choice == CHANGE_FRAME_SIZE) {
+            printf(CYAN);
+            printf("Current Frame Size: %d\n", input.frames);
+            printf(DEFAULT);
             input.frames = getFrameSize();
             changesUpdated = true;
         }
@@ -135,4 +143,12 @@ void implementAllAlgorithms(Input input) {
     displayAlgorithmsName("SECOND CHANCE ALGORITHM (SCA)");
     implementSingleAlgorithm(SCA, input);
     printf("\n\n");
+}
+
+void displayReferenceString(Input input) {
+    for (int i = 0; i < input.count; i++) {
+        printf("%d ", input.numbers[i]);
+    }
+
+    printf("\n");
 }
