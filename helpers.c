@@ -20,13 +20,22 @@ int getInputNumbers(int** numbers) {
     fflush(stdin);
     fgets(input, LENGTH, stdin);
 
+    // Handle empty input
+    // This is 1 as when we are getting the whole line, and the new line character is present in input if the string is empty
+    while (strlen(input) == 1) {
+        displayTextInColor(INPUT_LENGTH_ERROR_MSG, RED);
+        printf("%s", INPUT_MSG);
+        fflush(stdin);
+        fgets(input, LENGTH, stdin);
+    }
+
     // Replace the newline character with null character
     input[strcspn(input, "\n")] = '\0';
 
     // Prompt user for input until input is not all numeric
     while (!checkAllNumeric(input)) {
         displayTextInColor(INPUT_TYPE_ERROR_MSG, RED);
-        displayTextInColor(INPUT_MSG, RED);
+        printf("%s", INPUT_MSG);
         fflush(stdin);
         fgets(input, LENGTH, stdin);
         input[strcspn(input, "\n")] = '\0';
@@ -45,7 +54,7 @@ int getFrameSize() {
     
     // Prompt user until he doesn't provide a type 'number' or a number greater than zero
     while (scanf("%d", &frames) != 1 || frames <= 0) {
-        displayTextInColor("Please enter a positive integer!\n", RED);
+        displayTextInColor("Please enter only one positive integer!\n", RED);
         printf("Enter frame size: ");
         fflush(stdin);
     }
