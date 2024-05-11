@@ -38,6 +38,14 @@ int getInputNumbers(int** numbers) {
         printf("%s", INPUT_MSG);
         fflush(stdin);
         fgets(input, LENGTH, stdin);
+
+        while (strlen(input) == 1) {
+            displayTextInColor(INPUT_LENGTH_ERROR_MSG, RED);
+            printf("%s", INPUT_MSG);
+            fflush(stdin);
+            fgets(input, LENGTH, stdin);
+        }
+
         input[strcspn(input, "\n")] = '\0';
     }
 
